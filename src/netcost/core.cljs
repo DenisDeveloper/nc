@@ -6,8 +6,7 @@
 
 ;; (defonce app-state (atom {:text "Hello world!"}))
 
-(defn app []
-  [:div [grid]])
+(defn app [] [grid])
 
 (reagent/render-component
   [app] (. js/document (getElementById "app")))

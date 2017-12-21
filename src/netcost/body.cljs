@@ -10,7 +10,7 @@
 
 (defn- -fixed-head-left [state]
   [:div.head-left
-    (for [item (range 4 )]
+    (for [item (range 200)]
       ^{:key item}
         [:div.head-left-item
           [:div.item-content ">>>> >>>> >>>>"]])])
@@ -18,7 +18,7 @@
 (defn did-mount [this state]
   (let [el (reagent/dom-node this)
         size (.-width (.getBoundingClientRect el))]
-    (swap! state assoc :left-head-width size)))
+    (swap! state assoc :left-head-width size :side-el el)))
 
 ;; (defn did-update [this state]
 ;;   (let [el (reagent/dom-node this)
@@ -43,4 +43,4 @@
       [:div.grid-body [fixed-head-left state]
         (when-not
             (empty? (:top-head-width @state))
-            [content (:top-head-width @state)])])}))
+            [content state])])}))

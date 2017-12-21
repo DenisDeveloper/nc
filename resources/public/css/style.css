@@ -9,6 +9,22 @@ html, body {
 	margin: 0;
 }
 
+#app {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.grid {
+	width: 100%;
+	height: 100%;
+}
+
+.grid-body {
+	height: 1293px;
+}
+
 div {
 	box-sizing: border-box;
 }
@@ -18,8 +34,13 @@ div {
   width: 100%;
 }
 
+.head-left {
+	overflow: hidden;
+}
+
 .head-top-content {
 	display: flex;
+	overflow: hidden;
 }
 
 .head-top-item, .head-left-item {

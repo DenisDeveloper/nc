@@ -10,14 +10,8 @@
 
 (defn- -fixed-head-top []
   [:div.head-top-content
-    (for [item (range 15)]
+    (for [item (range 200)]
       ^{:key item} [-item "xxxx xxxx xxxx"])])
-
-;; (defn did-mount [this state]
-;;   (let [el (r/dom-node this)
-;;         children (.from js/Array (.-children el))
-;;         sizes (mapv #(.-width (.getBoundingClientRect %)) children)]
-;;     (swap! state assoc :top-head-width sizes)))
 
 
 (defn did-mount [this state]
