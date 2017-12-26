@@ -1,11 +1,50 @@
 (ns netcost.grid
     (:require [reagent.core :as reagent :refer [atom]]
               [netcost.head :refer [head]]
+              [netcost.scroll :as s]
               [netcost.body :refer [body]]))
 
 (enable-console-print!)
 
-(def state (atom {:left-head-width 0 :top-head-width [] :head-el nil :side-el nil}))
+
+(def m
+  (let [scroll-div (.createElement js/document "div")]
+    (set! (.-className scroll-div) "scrollbar-measure")
+    (.appendChild (.-body js/document) scroll-div)
+    (let [width (- (.-offsetWidth scroll-div) (.-clientWidth scroll-div))]
+      (.removeChild (.-body js/document) scroll-div) width)))
+
+(defn get-size [margin]
+  (str "calc(100% - " margin "px)"))
+
+(def const-state {:margin (get-size m)})
+
+(def state (atom {:left-head-width 0
+                  :top-head-width []
+                  :head-el nil
+                  :s-w 5000
+                  :scroll-height 0
+                  :side-el nil}))
+
+;; (defn grid []
+;;   [:div.grid-wrapper
+;;     [:div.grid [head state]
+;;                [body state]]
+;;     [:div.scroll-bar-y [:div {:style {:height 5800}}]]])
+
+
+(defn grid-wrap [state const-state]
+  (reagent/create-class
+   {:component-did-mount #(swap! state assoc :sh (.-scrollHeight (:side-el @state)) :sw (.-scrollWidth (:head-el @state)))
+    :component-did-update #(println "gw updated")
+    :reagent-render
+    (fn [state]
+      [:div.grid-wrapper
+            [:div.grid {:style {:width (:margin const-state) :height (:margin const-state)}} [head state] [body state]]
+            ])}))
 
 (defn grid []
-  [:div.grid [head state] [body state]])
+  (reagent/create-class
+     {:component-did-update #(println "grid updated")
+      :reagent-render
+      (fn [] [grid-wrap state const-state])}))

@@ -24,7 +24,7 @@
 
 (defn create-table [state]
   (let [top-head-width (:top-head-width @state)]
-   [:div.content {:on-scroll (fn [this] (reagent/next-tick #(on-scroll (.-target this) (:head-el @state) (:side-el @state))))}
+   [:div.content {:on-scroll #(on-scroll (.-target %) (:head-el @state) (:side-el @state))}
      (for [i (range (count empty-table))
            :let [x (nth empty-table i)]]
        ^{:key (str "x" i)} [-row i x top-head-width])]))

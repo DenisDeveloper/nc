@@ -16,9 +16,45 @@ html, body {
 	height: 100%;
 }
 
-.grid {
+.grid-wrapper {
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
+}
+
+.scroll-bar-y {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.scrollbar-measure {
+	width: 100px;
+	height: 100px;
+	overflow: scroll;
+	position: absolute;
+	top: -9999px;
+}
+
+*::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #fcaf17;
+}
+
+
+.scroll-bar-x {
+	width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.grid {
+	height: 100%;
+	overflow:hidden;
+	float: left;
 }
 
 .grid-body {
@@ -78,7 +114,7 @@ div {
 
 .content {
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .item-content {

@@ -27,8 +27,12 @@
      :reagent-render (fn [] (-fixed-head-top))}))
 
 (defn corner [state]
-  [:div.corner
-    {:style {:min-width (str (:left-head-width @state) "px")}}])
+  (r/create-class
+   {:component-did-update #(println "corenr up")
+    :reagent-render
+    (fn [state]
+      [:div.corner
+        {:style {:min-width (str (:left-head-width @state) "px")}}])}))
 
 (defn head [state]
   [:div.head-top [corner state] [fixed-head-top state]])
