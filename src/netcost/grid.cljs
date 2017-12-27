@@ -19,12 +19,11 @@
 
 (def const-state {:margin (get-size m)})
 
-(def state (atom {:left-head-width 0
-                  :top-head-width []
-                  :head-el nil
-                  :s-w 5000
-                  :scroll-height 0
-                  :side-el nil}))
+(def state (atom {:first-column-width 0
+                  :columns-width []
+                  :head-dom-node nil
+                  :side-dom-node nil
+                  :size-with-margin nil}))
 
 ;; (defn grid []
 ;;   [:div.grid-wrapper
@@ -33,10 +32,20 @@
 ;;     [:div.scroll-bar-y [:div {:style {:height 5800}}]]])
 
 
+;; (defn grid-wrap [state const-state]
+;;   (reagent/create-class
+;;    {:component-did-mount #(swap! state assoc :sh (.-scrollHeight (:side-el @state)) :sw (.-scrollWidth (:head-el @state)))
+;;     :component-did-update #(println "gw updated")
+;;     :reagent-render
+;;     (fn [state]
+;;       [:div.grid-wrapper
+;;             [:div.grid {:style {:width (:margin const-state) :height (:margin const-state)}} [head state] [body state]]
+;;             ])}))
+
+
 (defn grid-wrap [state const-state]
   (reagent/create-class
-   {:component-did-mount #(swap! state assoc :sh (.-scrollHeight (:side-el @state)) :sw (.-scrollWidth (:head-el @state)))
-    :component-did-update #(println "gw updated")
+   {:component-did-update #(println "gw updated")
     :reagent-render
     (fn [state]
       [:div.grid-wrapper
