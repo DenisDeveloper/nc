@@ -4,10 +4,15 @@
 (enable-console-print!)
 
 
+;; (defn did-mount [this state]
+;;   (let [el (reagent/dom-node this)
+;;         size (.-width (.getBoundingClientRect el))]
+;;     (swap! state assoc :left-head-width size :side-el el)))
+
+
 (defn did-mount [this state]
-  (let [el (reagent/dom-node this)
-        size (.-width (.getBoundingClientRect el))]
-    (swap! state assoc :left-head-width size :side-el el)))
+  (let [el (reagent/dom-node this)]
+    (swap! state assoc :side-dom-node el)))
 
 (defn- -fixed [state]
   [:div.head-left

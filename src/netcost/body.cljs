@@ -13,16 +13,24 @@
 ;;         size (.-width (.getBoundingClientRect el))]
 ;;     (swap! state assoc :left-head-width size)))
 
-(defn body-did-update [state]
-  (let [size (util/get-size (reagent/dom-node (:head-el @state)))]
-    (swap! state assoc :top-head-width size)))
+;; (defn body-did-update [state]
+;;   (let [size (util/get-size (reagent/dom-node (:head-el @state)))]
+;;     (swap! state assoc :top-head-width size)))
+
+;; (defn body [state]
+;;   (reagent/create-class
+;;    {:component-did-update #(body-did-update state)
+;;     :reagent-render
+;;     (fn [state]
+;;       [:div.grid-body
+;;         [side/fixed state]
+;;         [content state]])}))
 
 (defn body [state]
   (reagent/create-class
-   {:component-did-update #(body-did-update state)
-    :reagent-render
+   {:reagent-render
     (fn [state]
-      [:div.grid-body [side/fixed state]
-        (when-not
-            (empty? (:top-head-width @state))
-            [content state])])}))
+      (println "body render")
+      [:div.grid-body
+        [side/fixed state]
+        [content state]])}))
