@@ -11,9 +11,11 @@
   :dependencies [[org.clojure/clojure "1.9.0-beta4"]
                  [org.clojure/clojurescript "1.9.946"]
                  [org.clojure/core.async  "0.3.443"]
+                 [garden "1.3.3"]
                  [reagent "0.7.0"]]
 
   :plugins [[lein-figwheel "0.5.14"]
+            [lein-garden "0.3.0"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
 
   :source-paths ["src"]
@@ -50,6 +52,10 @@
                            :optimizations :advanced
                            :pretty-print false}}]}
 
+  :garden {:builds [{:source-paths ["src"]
+                     :stylesheet netcost.styles/style
+                     :compiler {:output-to "resources/public/css/main.css"}}]}
+  
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
              ;; :server-ip "127.0.0.1"

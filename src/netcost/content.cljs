@@ -17,12 +17,21 @@
   (set! (.-scrollLeft head-el) (.-scrollLeft target))
   (set! (.-scrollTop side-el) (.-scrollTop target)))
 
+(defn did-mount [this state]
+  (swap! state assoc :content-node (reagent/dom-node this)))
+
 (defn create-table [state]
-  (let [top-head-width (:columns-width @state)]
-   [:div.content {:on-scroll #(on-scroll (.-target %) (:head-el @state) (:side-el @state))}
-     (for [i (range (count empty-table))
-           :let [x (nth empty-table i)]]
-       ^{:key (str "x" i)} [-row i x top-head-width])]))
+  (reagent/create-class
+   {:component-did-mount #(did-mount % state)
+    :component-will-update #(println "create table will update")
+    :component-did-update #(println "create table did update")
+    :reagent-render
+    (fn [state]
+      (let [top-head-width (:columns-width @state)]
+        [:div.content
+         (for [i (range (count empty-table))
+               :let [x (nth empty-table i)]]
+           ^{:key (str "x" i)} [-row i x top-head-width])]))}))
 
 (defn -content [state]
   (fn [] (println "content render") [create-table state]))

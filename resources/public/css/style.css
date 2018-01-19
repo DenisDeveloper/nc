@@ -58,7 +58,7 @@ html, body {
 }
 
 .grid-body {
-	height: 1293px;
+	/* height: 1293px; */
 }
 
 div {
@@ -76,6 +76,8 @@ div {
 
 .head-top-content {
 	display: flex;
+	/* display: grid; */
+	/* grid-auto-flow: column; */
 	overflow: hidden;
 }
 

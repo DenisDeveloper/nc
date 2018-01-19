@@ -4,9 +4,11 @@
 
 (enable-console-print!)
 
-;; (defonce app-state (atom {:text "Hello world!"}))
-
 (defn app [] [grid])
+
+(def head-row (into [] (range 200)))
+(def head-column (into [] (range 200)))
+;; (def table-data [])
 
 (reagent/render-component
   [app] (. js/document (getElementById "app")))

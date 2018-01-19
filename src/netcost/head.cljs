@@ -1,5 +1,7 @@
 (ns netcost.head
-    (:require [reagent.core :as r]))
+  (:require [reagent.core :as r]
+            [clojure.string :as s]
+            [netcost.util :as util]))
 
 (enable-console-print!)
 
@@ -9,14 +11,22 @@
         [:div.item-content props]])
 
 
+(defn s1 [n]
+  (s/join (repeat n "*")))
+
+(defn rand-str [n1 n2]
+  (str (s/join " "
+               (repeatedly (rand-int n1)
+                           #(s1 (rand-int n2))))
+       "***"))
+
 (defn- -fixed-head []
   [:div.head-top-content
     (for [item (range 200)]
-      ^{:key item} [-item "xxxx xxxx xxxx"])])
-
+      ^{:key item} [-item (rand-str 4 6)])])
 
 (defn did-mount [this state]
-  (swap! state assoc :head-el (r/dom-node this)))
+  (swap! state assoc :head-node (r/dom-node this)))
 
 (defn fixed-head [state]
   (r/create-class
@@ -28,6 +38,7 @@
    {:component-did-update #(println "corenr up")
     :reagent-render
     (fn [state]
+      (prn "corner render")
       [:div.corner
         {:style {:min-width (str (:first-column-width @state) "px")}}])}))
 
