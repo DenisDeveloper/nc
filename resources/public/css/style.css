@@ -9,11 +9,12 @@ html, body {
 	margin: 0;
 }
 
-#app {
+#mount, .netcost-app {
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
+  font-family: sans-serif;
 }
 
 .grid-wrapper {
@@ -65,43 +66,6 @@ div {
 	box-sizing: border-box;
 }
 
-.head-top {
-  display: flex;
-  width: 100%;
-}
-
-.head-left {
-	overflow: hidden;
-}
-
-.head-top-content {
-	display: flex;
-	/* display: grid; */
-	/* grid-auto-flow: column; */
-	overflow: hidden;
-}
-
-.head-top-item, .head-left-item {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.head-top-item {
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-top: 1px solid #ddd;
-}
-
-.head-left-item {
-	border-bottom: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-}
-
-.head-left-item, .item {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
 
 .item {
 	border-bottom: 1px solid #ddd;
@@ -119,11 +83,6 @@ div {
   overflow: hidden;
 }
 
-.item-content {
-  color: #000;
-  padding-left: 5px;
-  padding-right: 5px;
-}
 
 .corner {
 	border: 1px solid #ddd;

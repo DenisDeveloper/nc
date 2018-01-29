@@ -7,12 +7,11 @@
 (enable-console-print!)
 
 
-(defn body [state]
+(defn body [state data]
   (reagent/create-class
    {:reagent-render
-    (fn [state]
+    (fn [state data]
       (let [height (str "calc(100% - " (:scroll-height-margin @state) "px)")]
-        (prn height)
         [:div.grid-body {:style {:max-height height}} 
-         [side/fixed state]
-         [content state]]))}))
+         [side/fixed state data]
+         [content state data]]))}))

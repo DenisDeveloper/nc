@@ -8,15 +8,21 @@
   (let [el (reagent/dom-node this)]
     (swap! state assoc :side-node el)))
 
-(defn- -fixed [state]
-  [:div.head-left
-    (for [item (range 200)]
-      ^{:key item}
-        [:div.head-left-item
-          [:div.item-content ">>>> >>>> >>>>"]])])
 
-(defn fixed [state]
+(defn item [item-data]
+  [:div.head-left-item
+   (when (= 1 1) [:div.expand [:i {:aria-hidden "true" :class "fa fa-fw fa-chevron-right"}]])
+   [:div.item-content item-data]])
+
+
+(defn- -fixed [state data]
+  (let [head-column (:head-column data)]
+    [:div.head-left
+     (for [item-data head-column]
+      ^{:key (random-uuid)} [item item-data])]))
+
+(defn fixed [state data]
   (reagent/create-class
     {:component-did-mount #(did-mount % state)
      :component-did-update #(println "head did update")
-     :reagent-render -fixed}))    
+     :reagent-render -fixed}))

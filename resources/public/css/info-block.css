@@ -1,0 +1,99 @@
+.info-block {
+  padding-left: 16px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  background: #fafafa;
+  height: 120px;
+  box-shadow: inset 0 8px 10px -6px rgba(0, 0, 0, 0.0999), inset 0 -8px 10px -6px rgba(0, 0, 0, 0.0999);
+}
+.head-route {
+  padding-top: 26px;
+  padding-bottom: 36px;
+  margin-right: 10%;
+}
+.head-route .route {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 10px;
+}
+.head-route .route .separator {
+      text-decoration: none !important;
+}
+.head-route .route .items {
+      margin-right: 6px;
+      font-size: 14px;
+      text-decoration: underline;
+      cursor: pointer;
+}
+.head-route .route .items .menu {
+        position: relative;
+}
+.head-route .route .items .menu .menu-list {
+          z-index: 2200;
+          position: absolute;
+          background: #fff;
+          padding: 4px 12px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.head-route .route .items .menu .menu-list .menu-list-item {
+            padding: 1px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+}
+.head-route .route .items .menu .menu-list .menu-list-item:hover {
+            background: #1565c0;
+            color: #fff;
+}
+.head-route .route-current {
+    padding-right: 14px;
+    font-size: 32px;
+    -ms-flex-item-align: end;
+        align-self: flex-end;
+    color: rgba(0, 0, 0, 0.87);
+}
+.costs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.costs .content {
+    padding-top: 26px;
+    padding-bottom: 36px;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+}
+.costs .content .value {
+      padding-right: 14px;
+      font-size: 32px;
+      -ms-flex-item-align: end;
+          align-self: flex-end;
+      color: rgba(0, 0, 0, 0.87);
+}
+.costs .content .description {
+      font-size: 13px;
+      width: 100%;
+      color: rgba(0, 0, 0, 0.87);
+}
+.costs .content .cost {
+      color: #2574a9;
+      -ms-flex-item-align: end;
+          align-self: flex-end;
+      font-size: 13px;
+      font-weight: bold;
+      padding-bottom: 2px;
+      border-bottom: 1px dashed #2574a9;
+}

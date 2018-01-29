@@ -18,8 +18,6 @@
 (defn get-size [margin]
   (str "calc(100% - " margin "px)"))
 
-(def const-state {:margin (get-size m)})
-
 (def state (atom {:first-column-width 0
                   :columns-width []
                   :head-node nil
@@ -27,6 +25,7 @@
                   :content-node nil
                   :scroll-height 0
                   :scroll-width 0
+                  :margin nil
                   :scroll-width-margin 0
                   :scroll-height-margin 0
                   :size-with-margin nil}))
@@ -39,45 +38,60 @@
   (set! (.-scrollTop el1) (.-scrollTop target))
   (set! (.-scrollTop el2) (.-scrollTop target)))
 
-(defn grid-wrap [state const-state]
+(defn grid-wrap [state data]
   (reagent/create-class
    {:component-did-update #(println "grid-wrap updated")
     :component-did-mount #(println "grid-wrap mount")
     :reagent-render
-    (fn [state]
+    (fn [state data]
       (let [scroll-offset-width (+ (:scroll-width @state) (:scroll-width-margin @state))
             scroll-offset-height (+ (:scroll-height @state) (:scroll-height-margin @state))]
         (prn (:scroll-height-margin @state))
         [:div.grid-wrapper
          [:div.grid
-          {:style {:max-width (:margin const-state) :max-height (:margin const-state)}}
-          [head state] [body state]]
+          {:style {:max-width (:margin @state) :max-height (:margin @state)}}
+          [head state data] [body state data]]
          [:div.scroll-bar-y
-          {:style {:max-height (:margin const-state)}
+          {:style {:max-height (:margin @state)}
            :on-scroll #(scroll-y (:side-node @state) (:content-node @state) (.-target %))}
           [:div {:style {:width 0.5 :height scroll-offset-height}}]]
          [:div.scroll-bar-x
-          {:style {:max-width (:margin const-state)}
+          {:style {:max-width (:margin @state)}
            :on-scroll #(scroll-x (:head-node @state) (:content-node @state) (.-target %))}
           [:div {:style {:width scroll-offset-width :height 0.5}}]]]))}))
 
-(defn grid []
+(defn invalidate [state]
+  (let [first-col-width (util/get-size-one (:side-node @state))
+        scroll-width (.-scrollWidth (:head-node @state))
+        scroll-height (.-scrollHeight (:side-node @state))
+        cols-width (util/get-size (:head-node @state))
+        scroll-width-margin first-col-width
+        margin (get-size m)
+        scroll-height-margin (.-height (.getBoundingClientRect (:head-node @state)))]
+    (swap! state assoc
+           :margin margin
+           :scroll-height scroll-height
+           :scroll-width scroll-width
+           :scroll-width-margin scroll-width-margin
+           :scroll-height-margin scroll-height-margin
+           :first-column-width first-col-width
+           :columns-width cols-width)))
+
+; (:columns-width @state)
+; (:first-column-width @state)
+; (= (:columns-width @state) (util/get-size (:head-node @state)))
+
+; (when-not (and (= 2 2) (= 1 1)) (prn "t"))
+
+(defn grid [data]
   (reagent/create-class
-     {:component-did-update #(println "grid updated") 
-      :component-did-mount (fn []
-                             (let [first-col-width (util/get-size-one (:side-node @state))
-                                   scroll-width (.-scrollWidth (:head-node @state))
-                                   scroll-height (.-scrollHeight (:side-node @state))
-                                   cols-width (util/get-size (:head-node @state))
-                                   scroll-width-margin first-col-width
-                                   scroll-height-margin (.-height (.getBoundingClientRect (:head-node @state)))]
-                               (swap! state assoc
-                                      :scroll-height scroll-height
-                                      :scroll-width scroll-width
-                                      :scroll-width-margin scroll-width-margin
-                                      :scroll-height-margin scroll-height-margin
-                                      :first-column-width first-col-width
-                                      :columns-width cols-width)))
+     {:component-did-update (fn []
+                              (let [old (:columns-width @state)
+                                    new (util/get-size (:head-node @state))
+                                    old1 (:first-column-width @state)
+                                    new1 (util/get-size-one (:side-node @state))]
+                               (when-not (and (= old new) (= old1 new1)) (invalidate state))))
+      :component-did-mount #(invalidate state)
       :reagent-render
-      (fn []
-        [grid-wrap state const-state])}))
+      (fn [data]
+        [grid-wrap state data])}))

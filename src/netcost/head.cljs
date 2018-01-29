@@ -10,28 +10,19 @@
   [:div.head-top-item
         [:div.item-content props]])
 
-
-(defn s1 [n]
-  (s/join (repeat n "*")))
-
-(defn rand-str [n1 n2]
-  (str (s/join " "
-               (repeatedly (rand-int n1)
-                           #(s1 (rand-int n2))))
-       "***"))
-
-(defn- -fixed-head []
-  [:div.head-top-content
-    (for [item (range 200)]
-      ^{:key item} [-item (rand-str 4 6)])])
+(defn- -fixed-head [data]
+  (let [head-row (:head-row data)]
+    [:div.head-top-content
+     (for [item head-row]
+      ^{:key item} [-item item])]))
 
 (defn did-mount [this state]
   (swap! state assoc :head-node (r/dom-node this)))
 
-(defn fixed-head [state]
+(defn fixed-head [state data]
   (r/create-class
     {:component-did-mount #(did-mount % state)
-     :reagent-render (fn [] (-fixed-head))}))
+     :reagent-render (fn [_ data] [-fixed-head data])}))
 
 (defn corner [state]
   (r/create-class
@@ -42,5 +33,5 @@
       [:div.corner
         {:style {:min-width (str (:first-column-width @state) "px")}}])}))
 
-(defn head [state]
-  [:div.head-top [corner state] [fixed-head state]])
+(defn head [state data]
+  [:div.head-top [corner state] [fixed-head state data]])

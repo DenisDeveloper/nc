@@ -1,17 +1,14 @@
 (ns netcost.content
     (:require [reagent.core :as reagent :refer [atom]]))
 
-(def empty-table
-  (vec (repeat 200 (vec (range 200)))))
+(defn -item [data-item width]
+  [:div.item {:style {:min-width (str width "px")}} data-item])
 
-(defn -item [i y width]
-  [:div.item {:style {:min-width (str width "px")}} (str i y)])
-
-(defn -row [i x state]
+(defn -row [row-data state]
   [:div.row
-    (for [j (range (count x))
-            :let [y (nth x j) width (nth state j)]]
-        ^{:key (str i y)} [-item i y width])])
+    (for [j (range (count row-data))
+            :let [data-item (nth row-data j) width (nth state j)]]
+        ^{:key (random-uuid)} [-item data-item width])])
 
 (defn on-scroll [target head-el side-el]
   (set! (.-scrollLeft head-el) (.-scrollLeft target))
@@ -20,28 +17,28 @@
 (defn did-mount [this state]
   (swap! state assoc :content-node (reagent/dom-node this)))
 
-(defn create-table [state]
+(defn create-table [state data]
   (reagent/create-class
    {:component-did-mount #(did-mount % state)
     :component-will-update #(println "create table will update")
     :component-did-update #(println "create table did update")
     :reagent-render
-    (fn [state]
-      (let [top-head-width (:columns-width @state)]
+    (fn [state data]
+      (let [top-head-width (:columns-width @state)
+            data-table (:content data)]
         [:div.content
-         (for [i (range (count empty-table))
-               :let [x (nth empty-table i)]]
-           ^{:key (str "x" i)} [-row i x top-head-width])]))}))
+         (for [i (range (count data-table))
+               :let [row-data (nth data-table i)]]
+           ^{:key (random-uuid)} [-row row-data top-head-width])]))}))
 
-(defn -content [state]
-  (fn [] (println "content render") [create-table state]))
+(defn -content [state data]
+  (fn [] (println "content render") [create-table state data]))
 
-(defn content [state]
+(defn content [state data]
   (when-not (empty? (:columns-width @state))
     (reagent/create-class
         {:component-did-mount #(println "content did mount")
          :component-will-update #(println "content will update")
          :component-did-update #(println "content did update")
          :reagent-render -content})))
-
 
